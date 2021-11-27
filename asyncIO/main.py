@@ -8,6 +8,7 @@ import timeit
 from urllib.request import urlopen
 from concurrent.futures import ThreadPoolExecutor
 import threading
+from bs4 import BeautifulSoup
 
 start = timeit.default_timer()
 urls = ['https://daum.net', 'https://naver.com', 'https://tistory.com', 'https://wemakeprice.com/']
@@ -17,10 +18,19 @@ async def fetch(url, executor):
     print(f"Thread Start: {threading.current_thread().getName()}", url)
     # 실행
     response = await loop.run_in_executor(executor, urlopen, url)
+
+    soup = BeautifulSoup(response.read(), 'html.parser')
+
+    # 소스 확인
+    # print(soup.prettify())
+
+    # title 
+    result = soup.title
+
     print(f"Thread Done: {threading.current_thread().getName()}", url)
 
     # 결과 반환
-    return response.read()[:5]
+    return result
 
 async def main():
     # 쓰레드 풀 생성
