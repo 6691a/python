@@ -64,3 +64,6 @@ cl = custome_list([1, 2, 3])
 cl.mul(100)
 # [100, 200, 300]
 print(cl)
+
+# 상속 확인
+print(cl.__mro__)
