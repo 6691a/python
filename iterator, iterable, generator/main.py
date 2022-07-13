@@ -1,5 +1,5 @@
 from random import randint
-from collections.abc import Iterable, Iterator
+from collections.abc import Iterable, Iterator, Generator
 class RendomIntIterator():
     def __init__(self, min: int, max: int, count: int):
         self.current: int = 0
@@ -57,7 +57,29 @@ print("====")
 for i in RandomIntIterable(20, 30, 2):
     print(i)
 
+print("====")
 
 # Iterator는 Iterable을 상속한다
 assert True == issubclass(Iterator, Iterable)
 assert False == issubclass(Iterable, Iterator)
+
+
+def random_generator(min: int, max: int, count: int) -> int:
+    ctn: int = 0
+    while count > ctn:
+        yield randint(min, max)
+        ctn += 1
+
+g = random_generator(1, 20, 3)
+print(next(g))
+print(next(g))
+print(next(g))
+# 최대 횟수 초과 시 자동 StopIteration 발생
+# print(next(g))
+
+print("====")
+
+# generator comprehension
+g2 = (randint(20, 30) for _ in range(3))
+for i in g2:
+    print(i)
